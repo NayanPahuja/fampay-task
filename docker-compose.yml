@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  # Go server port
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=youtube
+      - DB_PORT=5432
+      - TEMPORAL_HOST=temporal:7233
+      - YOUTUBE_API_KEYS=API_KEY_1,API_KEY_2,API_KEY_3
+    depends_on:
+      - postgres
+      - temporal
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=youtube
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  temporal:
+    image: temporalio/auto-setup:1.22.3
+    ports:
+      - "7233:7233"  # Temporal frontend service
+      - "8233:8233"  # Temporal matching service
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PWD=password
+      - POSTGRES_SEEDS=postgres
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  temporal-admin-tools:
+    image: temporalio/admin-tools:1.22.3
+    environment:
+      - TEMPORAL_CLI_ADDRESS=temporal:7233
+    networks:
+      - app-network
+    depends_on:
+      - temporal
+
+  temporal-web:
+    image: temporalio/ui:2.21.3
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:8000
+    ports:
+      - "8233:8233"  # Changed Temporal Web UI port to 8088
+    depends_on:
+      - temporal
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

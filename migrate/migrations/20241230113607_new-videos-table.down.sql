@@ -1,0 +1,2 @@
+TRUNCATE TABLE videos;
+DROP TABLE videos;
