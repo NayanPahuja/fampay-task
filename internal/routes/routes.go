@@ -9,7 +9,6 @@ import (
 func RegisterRoutes(app *fiber.App) {
 	videoService := services.NewVideoService()
 	videoHandler := handlers.NewVideoHandler(videoService)
-
 	api := app.Group("/api")
 	api.Get("/videos", videoHandler.GetPaginatedVideos)
 

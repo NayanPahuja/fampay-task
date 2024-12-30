@@ -11,6 +11,18 @@ type VideoHandler struct {
 	service services.VideoService
 }
 
+// GetVideos godoc
+// @Summary Get list of videos
+// @Description Get a list of videos with pagination support
+// @Tags videos
+// @Accept  json
+// @Produce  json
+// @Param limit query int false "Limit per page"
+// @Param offset query int false "Offset for pagination"
+// @Success 200 {array} Video
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /videos [get]
 func NewVideoHandler(service services.VideoService) *VideoHandler {
 	return &VideoHandler{service: service}
 }
