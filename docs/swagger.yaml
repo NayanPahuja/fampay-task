@@ -1,0 +1,49 @@
+info:
+  contact: {}
+paths:
+  /health:
+    get:
+      description: Responds with a message UP
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Get service health check
+      tags:
+      - healthcheck
+  /videos:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of videos with pagination support
+      parameters:
+      - description: Limit per page
+        in: query
+        name: limit
+        type: integer
+      - description: Offset for pagination
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: videos
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get list of videos
+      tags:
+      - videos
+swagger: "2.0"
