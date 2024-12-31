@@ -1,4 +1,16 @@
 definitions:
+  models.PaginationResponse:
+    description: Video object representing a video
+    properties:
+      next_cursor:
+        description: Cursor for the next page
+        type: string
+      videos:
+        description: The list of videos
+        items:
+          $ref: '#/definitions/models.Video'
+        type: array
+    type: object
   models.Video:
     description: Video object representing a video
     properties:
@@ -23,7 +35,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/videos:
+  /api/v1/videos:
     get:
       consumes:
       - application/json
@@ -46,6 +58,38 @@ paths:
             items:
               $ref: '#/definitions/models.Video'
             type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get list of videos
+      tags:
+      - videos
+  /api/v1/videosv2:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of videos with pagination using cursor
+      parameters:
+      - description: Cursor for pagination (base64 encoded string)
+        in: query
+        name: cursor
+        type: string
+      - description: Limit of records to retrieve per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful Response
+          schema:
+            $ref: '#/definitions/models.PaginationResponse'
         "400":
           description: Bad Request
           schema:

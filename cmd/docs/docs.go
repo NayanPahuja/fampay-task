@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/videos": {
+        "/api/v1/videos": {
             "get": {
                 "description": "Get a list of videos with pagination support",
                 "consumes": [
@@ -67,6 +67,55 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/videosv2": {
+            "get": {
+                "description": "Get a list of videos with pagination using cursor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Get list of videos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cursor for pagination (base64 encoded string)",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit of records to retrieve per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "schema": {
+                            "$ref": "#/definitions/models.PaginationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "description": "Responds with a message UP",
@@ -89,6 +138,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.PaginationResponse": {
+            "description": "Video object representing a video",
+            "type": "object",
+            "properties": {
+                "next_cursor": {
+                    "description": "Cursor for the next page",
+                    "type": "string"
+                },
+                "videos": {
+                    "description": "The list of videos",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Video"
+                    }
+                }
+            }
+        },
         "models.Video": {
             "description": "Video object representing a video",
             "type": "object",

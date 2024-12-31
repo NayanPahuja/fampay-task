@@ -8,6 +8,7 @@ import (
 
 type VideoService interface {
 	GetPaginatedVideos(limit, offset int) ([]models.Video, error)
+	GetPaginatedVideosUsingCursor(encodedCursor string, limit int) ([]models.Video, string, error)
 }
 
 type videoService struct {
@@ -20,4 +21,8 @@ func NewVideoService() VideoService {
 
 func (s *videoService) GetPaginatedVideos(limit int, offset int) ([]models.Video, error) {
 	return s.repo.GetVideosByPagination(limit, offset)
+}
+
+func (s *videoService) GetPaginatedVideosUsingCursor(encodedCursor string, limit int) ([]models.Video, string, error) {
+	return s.repo.GetVideosByCursor(encodedCursor, limit)
 }

@@ -14,3 +14,10 @@ type Video struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
+
+// PaginationResponse struct represents a video object
+// @Description Video object representing a video
+type PaginationResponse struct {
+	Videos     []Video `json:"videos"`      // The list of videos
+	NextCursor string  `json:"next_cursor"` // Cursor for the next page
+}
