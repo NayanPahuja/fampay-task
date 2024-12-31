@@ -1,4 +1,73 @@
+definitions:
+  models.Video:
+    description: Video object representing a video
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      publishedAt:
+        type: string
+      thumbnailURL:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+      videoID:
+        description: YouTube video ID
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /api/videos:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of videos with pagination support
+      parameters:
+      - description: Limit per page
+        in: query
+        name: limit
+        type: integer
+      - description: Offset for pagination
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            items:
+              $ref: '#/definitions/models.Video'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get list of videos
+      tags:
+      - videos
+  /health:
+    get:
+      description: Responds with a message UP
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Get service health check
+      tags:
+      - healthcheck
 swagger: "2.0"

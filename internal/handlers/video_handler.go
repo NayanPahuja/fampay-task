@@ -3,6 +3,7 @@ package handlers
 import (
 	"strconv"
 
+	_ "github.com/NayanPahuja/fam-bcknd-test/internal/models"
 	"github.com/NayanPahuja/fam-bcknd-test/internal/services"
 	"github.com/gofiber/fiber/v2"
 )
@@ -23,10 +24,10 @@ func NewVideoHandler(service services.VideoService) *VideoHandler {
 // @Produce  json
 // @Param limit query int false "Limit per page"
 // @Param offset query int false "Offset for pagination"
-// @Success 200 {string} string "videos"
+// @Success 200 {array}  models.Video "Ok"
 // @Failure 400 {string} string "Bad Request"
 // @Failure 500 {string} string "Internal Server Error"
-// @Router /videos [get]
+// @Router /api/videos [get]
 func (h *VideoHandler) GetPaginatedVideos(c *fiber.Ctx) error {
 	//Parse query parameters
 

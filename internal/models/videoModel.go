@@ -2,6 +2,8 @@ package models
 
 import "time"
 
+// Video struct represents a video object
+// @Description Video object representing a video
 type Video struct {
 	ID           uint      `gorm:"primaryKey"`
 	Title        string    `gorm:"type:varchar(255);unique;not null"`
