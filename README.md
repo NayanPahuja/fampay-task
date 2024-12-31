@@ -11,7 +11,7 @@ The services used in this project include:
 ### 1. **App**
 - **Purpose**: The main API service, written in Golang.
 - **Features**:
-  - Exposes REST API endpoints for video fetching.
+  - Exposes REST API endpoints for video fetching using fiber.
   - Triggers Temporal workflows.
   - Connects to the PostgreSQL database.
 - **Ports**: Exposed at `8080`.
@@ -70,7 +70,7 @@ The services used in this project include:
 
 ### Services Access
 
-- **Web API Service**: [http://localhost:8080/health](http://localhost:8080)
+- **Health API Service**: [http://localhost:8080/health](http://localhost:8080)
   - Navigate to this URL to access the API service and check it's health.
 
 - **Swagger UI**: [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
