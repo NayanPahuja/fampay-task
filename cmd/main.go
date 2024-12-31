@@ -40,7 +40,7 @@ func main() {
 	}()
 
 	// Start HTTP Server
-	port := ":3000"
+	port := ":8080"
 	log.Printf("Server running on http://localhost%s", port)
 	log.Println(app.Stack())
 	log.Fatal(app.Listen(port))
