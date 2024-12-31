@@ -34,7 +34,7 @@ func main() {
 	go func() {
 		log.Println("Triggering Temporal Workflow...")
 		input := workflows.YouTubeWorkflowInput{
-			SearchQuery: "cricket",
+			SearchQuery: "Happy New Year",
 		}
 		temporal.TriggerWorkflow(temporalClient, input)
 	}()
